@@ -9,7 +9,6 @@ namespace Model
     public class DayTime : BaseModel
     {
         public string? Day { get; set; }
-        public string? Time { get; set; }
         public List<Schedule>? Schedules { get; set;}
 
     }

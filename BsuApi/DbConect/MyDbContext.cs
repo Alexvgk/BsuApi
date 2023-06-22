@@ -15,7 +15,8 @@ namespace DbConect
     {
         public DbSet<User> users { get; set;} = null!;
         public DbSet<RegCode> RegistCodes { get; set;} = null!;
-        public DbSet<UID> UIDs { get; set; } = null!;
+        public DbSet<UID> Uid { get; set; } = null!;
+        public DbSet<CourseGroup> CourseGroup { get; set; } = null!;
 
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
         {

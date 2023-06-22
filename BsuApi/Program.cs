@@ -1,4 +1,5 @@
 using DbConect;
+using Microsoft.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Model;
 using Repositories.Implimentations;
@@ -6,6 +7,7 @@ using Repositories.Interfaces;
 using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+WebHost.CreateDefaultBuilder(args).UseUrls("http://127.0.0.1:5000");
 var configuration = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json")
@@ -29,7 +31,6 @@ builder.Services.AddTransient<IBaseRepository<DayTime>, BaseRepository<DayTime>>
 builder.Services.AddTransient<IBaseRepository<LessonForm>, BaseRepository<LessonForm>>();
 
 var app = builder.Build();
-
 
 app.UseAuthorization();
 
