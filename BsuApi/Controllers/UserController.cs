@@ -17,11 +17,9 @@ public class UserController : ControllerBase
 
     // GET api/User
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<User>>> Get()
+    public  JsonResult Get()
     {
-
-        var result =  Data.GetAll();
-        return result;
+        return new JsonResult(Data.GetAll());
     }
 
     //GET api/user/{id}
@@ -35,7 +33,7 @@ public class UserController : ControllerBase
             return NotFound();
         }
 
-        return result;
+        return CreatedAtAction(nameof(GetUser), result);
     }
 
     // POST api/users
