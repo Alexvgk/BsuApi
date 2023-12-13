@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
+using Repositories.Implimentations;
 using Repositories.Interfaces;
 
 namespace DbApi.Controllers
@@ -9,9 +10,9 @@ namespace DbApi.Controllers
     [ApiController]
     public class DayTimeController : ControllerBase
     {
-        private IBaseRepository<DayTime> Data { get; set; }
+        private BaseRepository<DayTime> Data { get; set; }
 
-        public DayTimeController(IBaseRepository<DayTime> baseData)
+        public DayTimeController(BaseRepository<DayTime> baseData)
         {
             Data = baseData;
         }
@@ -21,7 +22,7 @@ namespace DbApi.Controllers
         public async Task<ActionResult<IEnumerable<DayTime>>> Get()
         {
 
-            var result = Data.GetAll();
+            var result = await Data.GetAllAsync();
             return result;
         }
 
@@ -30,7 +31,7 @@ namespace DbApi.Controllers
         {
             try
             {
-                Data.Delete(id);
+                await Data.DeleteAsync(id);
                 return Ok();
             }
 
@@ -44,7 +45,7 @@ namespace DbApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<DayTime>> GetCode(Guid id)
         {
-            var result = Data.Get(id);
+            var result = await Data.GetByIdAsync(id);
 
             if (result == null)
             {
@@ -60,7 +61,7 @@ namespace DbApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                Data.Create(code);
+                 await Data.AddAsync(code);
 
                 return CreatedAtAction(nameof(GetCode), new { id = code.Id }, code);
             }
@@ -73,12 +74,12 @@ namespace DbApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCode(int id, [FromBody] DayTime code)
         {
-            var fcode = Data.Get(code.Id);
+            var fcode = await Data.GetByIdAsync(code.Id);
             try
             {
                 if (fcode != null)
                 {
-                    fcode = Data.Update(code);
+                    await Data.UpdateAsync(code);
                 }
                 else
                 {

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Model;
+using Repositories.Implimentations;
 using Repositories.Interfaces;
 
 namespace DbApi.Controllers
@@ -10,9 +11,9 @@ namespace DbApi.Controllers
     [ApiController]
     public class UIDController : ControllerBase
     {
-        private IBaseRepository<UID> Data { get; set; }
+        private BaseRepository<UID> Data { get; set; }
 
-        public UIDController(IBaseRepository<UID> baseData)
+        public UIDController(BaseRepository<UID> baseData)
         {
             Data = baseData;
         }
@@ -22,7 +23,7 @@ namespace DbApi.Controllers
         public async Task<ActionResult<IEnumerable<UID>>> Get()
         {
 
-            var result =  Data.GetAll();
+            var result =  await Data.GetAllAsync();
             return result;
         }
 
@@ -30,7 +31,7 @@ namespace DbApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<UID>> GetPass(Guid id)
         {
-            if (Data.Get(id) is UID result)
+            if (await Data.GetByIdAsync(id) is UID result)
             {
                 return result;
             }
@@ -44,7 +45,7 @@ namespace DbApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                Data.Create(pass);
+                await Data.AddAsync(pass);
 
                 return CreatedAtAction(nameof(GetPass), new { id = pass.Id }, pass);
             }
@@ -59,7 +60,7 @@ namespace DbApi.Controllers
         {
             try
             {
-                Data.Delete(id);
+                await Data.DeleteAsync(id);
                 return Ok();
             }
 
@@ -72,12 +73,12 @@ namespace DbApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePass([FromBody] UID pass)
         {
-            var fuser = Data.Get(pass.Id);
+            var fuser = await Data.GetByIdAsync(pass.Id);
             try
             {
                 if (fuser != null)
                 {
-                    fuser = Data.Update(pass);
+                    await Data.UpdateAsync(pass);
                 }
                 else
                 {

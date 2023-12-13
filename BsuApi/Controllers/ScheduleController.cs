@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
+using Repositories.Implimentations;
 using Repositories.Interfaces;
 
 namespace DbApi.Controllers
@@ -9,9 +10,9 @@ namespace DbApi.Controllers
     [ApiController]
     public class ScheduleController : ControllerBase
     {
-        private IBaseRepository<Schedule> Data { get; set; }
+        private BaseRepository<Schedule> Data { get; set; }
 
-        public ScheduleController(IBaseRepository<Schedule> baseData)
+        public ScheduleController(BaseRepository<Schedule> baseData)
         {
             Data = baseData;
         }
@@ -21,7 +22,7 @@ namespace DbApi.Controllers
         public async Task<ActionResult<IEnumerable<Schedule>>> Get()
         {
 
-            var result = Data.GetAll();
+            var result = await Data.GetAllAsync();
             return result;
         }
 
@@ -29,7 +30,7 @@ namespace DbApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Schedule>> GetUser(Guid id)
         {
-            var result = Data.Get(id);
+            var result = await Data.GetByIdAsync(id);
 
             if (result == null)
             {
@@ -45,7 +46,7 @@ namespace DbApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                Data.Create(user);
+                await Data.AddAsync(user);
 
                 return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
             }
@@ -60,7 +61,7 @@ namespace DbApi.Controllers
         {
             try
             {
-                Data.Delete(id);
+                await Data.DeleteAsync(id);
                 return Ok();
             }
 
@@ -74,12 +75,12 @@ namespace DbApi.Controllers
         public async Task<IActionResult> UpdateUser([FromBody] Schedule user)
         {
 
-            var fuser = Data.Get(user.Id);
+            var fuser = await Data.GetByIdAsync(user.Id);
             try
             {
                 if (fuser != null)
                 {
-                    fuser = Data.Update(user);
+                    await Data.UpdateAsync(user);
                 }
                 else
                 {

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Model;
+using Repositories.Implimentations;
 using Repositories.Interfaces;
 
 namespace DbApi.Controllers;
@@ -8,25 +9,25 @@ namespace DbApi.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    private IBaseRepository<User> Data { get; set; }
+    private BaseRepository<User> Data { get; set; }
 
-    public UserController(IBaseRepository<User> baseData)
+    public UserController(BaseRepository<User> baseData)
     {
         Data = baseData;
     }
 
     // GET api/User
     [HttpGet]
-    public  JsonResult Get()
+    public async Task<JsonResult> Get()
     {
-        return new JsonResult(Data.GetAll());
+        return new JsonResult( await Data.GetAllAsync());
     }
 
     //GET api/user/{id}
     [HttpGet("{id}")]
     public async Task<ActionResult<User>> GetUser(Guid id)
     {
-        var result = Data.Get(id);
+        var result = await Data.GetByIdAsync(id);
 
         if (result == null)
         {
@@ -42,7 +43,7 @@ public class UserController : ControllerBase
     {
         if (ModelState.IsValid)
         {
-            Data.Create(user);
+            await Data.AddAsync(user);
 
             return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
         }
@@ -57,7 +58,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            Data.Delete(id);
+            await Data.DeleteAsync(id);
             return  Ok();
         }
 
@@ -71,12 +72,12 @@ public class UserController : ControllerBase
     public async Task<IActionResult> UpdateUser([FromBody] User user)
     {
 
-        var fuser = Data.Get(user.Id);
+        var fuser = await Data.GetByIdAsync(user.Id);
         try
         {
             if (fuser != null)
             {
-                fuser = Data.Update(user);
+                await Data.UpdateAsync(user);
             }
             else
             {

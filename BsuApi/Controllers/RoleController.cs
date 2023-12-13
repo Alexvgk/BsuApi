@@ -1,35 +1,36 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
+using Repositories.Implimentations;
 using Repositories.Interfaces;
 
 namespace BsuApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserRoleController : ControllerBase
+    public class RoleController : ControllerBase
     {
-        private IBaseRepository<UserRole> Data { get; set; }
+        private BaseRepository<Role> Data { get; set; }
 
-        public UserRoleController(IBaseRepository<UserRole> baseData)
+        public RoleController(BaseRepository<Role> baseData)
         {
             Data = baseData;
         }
 
         // GET api/users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserRole>>> Get()
+        public async Task<ActionResult<IEnumerable<Role>>> Get()
         {
 
-            var result = Data.GetAll();
+            var result = await Data.GetAllAsync();
             return result;
         }
 
         //GET api/user/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserRole>> GetUser(Guid id)
+        public async Task<ActionResult<Role>> GetUser(Guid id)
         {
-            var result = Data.Get(id);
+            var result = await Data.GetByIdAsync(id);
 
             if (result == null)
             {
@@ -41,11 +42,11 @@ namespace BsuApi.Controllers
 
         // POST api/users
         [HttpPost]
-        public async Task<ActionResult<UserRole>> CreateUser(UserRole user)
+        public async Task<ActionResult<Role>> CreateUser(Role user)
         {
             if (ModelState.IsValid)
             {
-                Data.Create(user);
+                await Data.AddAsync(user);
 
                 return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
             }
@@ -60,7 +61,7 @@ namespace BsuApi.Controllers
         {
             try
             {
-                Data.Delete(id);
+                await Data.DeleteAsync(id);
                 return Ok();
             }
 
@@ -71,15 +72,15 @@ namespace BsuApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser([FromBody] UserRole user)
+        public async Task<IActionResult> UpdateUser([FromBody] Role user)
         {
 
-            var fuser = Data.Get(user.Id);
+            var fuser = await Data.GetByIdAsync(user.Id);
             try
             {
                 if (fuser != null)
                 {
-                    fuser = Data.Update(user);
+                    await Data.UpdateAsync(user);
                 }
                 else
                 {
