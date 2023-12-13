@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Model
 {
-    public class UserRole : BaseModel
+    public class Role : BaseModel
     {
-        public string? Role { get; set;}
+        public string? UserRole { get; set;}
         public  List<User>? users { get; set;}
     }
 }

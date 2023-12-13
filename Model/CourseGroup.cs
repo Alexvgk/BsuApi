@@ -9,7 +9,6 @@ namespace Model
     {
         public string? Course { get; set;}
         public string? Group { get; set;}
-        public string? Speciality { get; set;}
         public List<Schedule>? schedules { get; set;}
         public List<User>? users { get; set; }
     }
