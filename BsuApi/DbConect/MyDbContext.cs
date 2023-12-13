@@ -14,12 +14,12 @@ namespace DbConect
     public class MyDbContext : DbContext
     {
         public DbSet<User> users { get; set;} = null!;
-        public DbSet<RegCode> RegistCodes { get; set;} = null!;
         public DbSet<UID> Uid { get; set; } = null!;
         public DbSet<CourseGroup> CourseGroup { get; set; } = null!;
 
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
         {
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -28,11 +28,6 @@ namespace DbConect
             modelBuilder.Entity<User>()
                  .HasKey(x => x.Id);
             modelBuilder.Entity<User>()
-                .Property(x => x.Id)
-                .HasColumnType("char(36)");
-            modelBuilder.Entity<RegCode>()
-                .HasKey(r => r.Id);
-            modelBuilder.Entity<RegCode>()
                 .Property(x => x.Id)
                 .HasColumnType("char(36)");
             modelBuilder.Entity<UID>()
@@ -45,14 +40,13 @@ namespace DbConect
             modelBuilder.Entity<CourseGroup>()
                 .Property(x => x.Id)
                 .HasColumnType("char(36)");
-            modelBuilder.Entity<UserRole>()
+            modelBuilder.Entity<Role>()
                 .HasKey(r => r.Id);
-            modelBuilder.Entity<UserRole>()
+            modelBuilder.Entity<Role>()
                 .Property(x => x.Id)
                 .HasColumnType("char(36)");
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
-            modelBuilder.ApplyConfiguration(new RegCodeConfiguration());
             modelBuilder.ApplyConfiguration(new UIDConfiguration());
 
         }
