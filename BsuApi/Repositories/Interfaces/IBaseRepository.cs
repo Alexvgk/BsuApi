@@ -9,10 +9,10 @@ namespace Repositories.Interfaces
 {
     public interface IBaseRepository<TDbModel> where TDbModel : BaseModel
     {
-        public List<TDbModel> GetAll();
-        public TDbModel Get(Guid id);
-        public TDbModel Create(TDbModel model);
-        public TDbModel Update(TDbModel model);
-        public void Delete(Guid id);
+        Task<TDbModel> GetByIdAsync(Guid id);
+        Task<List<TDbModel>> GetAllAsync();
+        Task AddAsync(TDbModel entity);
+        Task UpdateAsync(TDbModel entity);
+        Task DeleteAsync(Guid id);
     }
 }
