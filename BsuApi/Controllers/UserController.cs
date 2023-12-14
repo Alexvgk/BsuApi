@@ -72,17 +72,9 @@ public class UserController : ControllerBase
     public async Task<IActionResult> UpdateUser([FromBody] User user)
     {
 
-        var fuser = await Data.GetByIdAsync(user.Id);
         try
         {
-            if (fuser != null)
-            {
-                await Data.UpdateAsync(user);
-            }
-            else
-            {
-                return NoContent();
-            }
+            await Data.UpdateAsync(user);
         }
         catch (Exception)
         {

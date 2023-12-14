@@ -74,17 +74,9 @@ namespace BsuApi.Controllers
         public async Task<IActionResult> UpdateUser([FromBody] News user)
         {
 
-            var fuser = await Data.GetByIdAsync(user.Id);
             try
             {
-                if (fuser != null)
-                {
-                    await Data.UpdateAsync(user);
-                }
-                else
-                {
-                    return NoContent();
-                }
+                await Data.UpdateAsync(user);
             }
             catch (Exception)
             {

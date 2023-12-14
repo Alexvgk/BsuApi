@@ -73,17 +73,9 @@ namespace DbApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePass([FromBody] UID pass)
         {
-            var fuser = await Data.GetByIdAsync(pass.Id);
             try
             {
-                if (fuser != null)
-                {
-                    await Data.UpdateAsync(pass);
-                }
-                else
-                {
-                    return NoContent();
-                }
+                await Data.UpdateAsync(pass);
             }
             catch (Exception)
             {

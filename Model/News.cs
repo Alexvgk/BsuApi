@@ -11,7 +11,7 @@ namespace Model
     {
         public string? Text { get; set; }
         public byte[]? ImageData { get; set; }
-        public Guid IdCourseGroup { get; set; }
+        public Guid CourseGroupId { get; set; }
         public virtual CourseGroup? CourseGroup { get; set; } 
     }
 }

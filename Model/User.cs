@@ -1,7 +1,4 @@
 ﻿using Model.Base;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model
 {
@@ -12,6 +9,7 @@ namespace Model
         public string? SecondName { get; set; }
         public string? Email { get; set;}
         public string? Password { get; set;}
+        public byte[]? Photo { get; set;}
         public Guid? IdCourseGroup { get; set;}
         public Guid? IdRole { get; set; }
         public virtual CourseGroup? CorseGroup { get; set; }

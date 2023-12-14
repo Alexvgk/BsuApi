@@ -11,7 +11,7 @@ namespace BsuApi.DbConect
         {
             modelBuilder.HasOne(n => n.CourseGroup)
             .WithMany(c => c.News)
-            .HasForeignKey(n => n.IdCourseGroup)
+            .HasForeignKey(n => n.CourseGroupId)
             .OnDelete(DeleteBehavior.Restrict);
         }
     }

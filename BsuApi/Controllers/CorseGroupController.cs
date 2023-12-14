@@ -74,17 +74,9 @@ namespace DbApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCode(int id, [FromBody] CourseGroup code)
         {
-            var fcode = await Data.GetByIdAsync(code.Id);
             try
             {
-                if (fcode != null)
-                {
-                   await Data.UpdateAsync(code);
-                }
-                else
-                {
-                    return NoContent();
-                }
+                await Data.UpdateAsync(code);
             }
             catch (Exception)
             {
