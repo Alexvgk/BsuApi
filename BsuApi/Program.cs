@@ -7,6 +7,7 @@ using Model;
 using Repositories.Implimentations;
 using Repositories.Interfaces;
 using System.Configuration;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 WebHost.CreateDefaultBuilder(args).UseUrls("http://127.0.0.1:5000");
@@ -18,6 +19,11 @@ var configuration = new ConfigurationBuilder()
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.WriteIndented = true;
+});
 builder.Services.AddEndpointsApiExplorer();
 var serverVersion = ServerVersion.Parse("8.0.28");
 builder.Services.AddSwaggerGen();
