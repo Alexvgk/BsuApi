@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using DbApi.DbConect;
+using BsuApi.DbConect;
 
 namespace DbConect
 {
@@ -26,7 +27,7 @@ namespace DbConect
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
         {
             //Database.EnsureDeleted();
-           // Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -57,6 +58,7 @@ namespace DbConect
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new SchedulesConfiguration());
             modelBuilder.ApplyConfiguration(new UIDConfiguration());
+            modelBuilder.ApplyConfiguration(new NewsConfiguration());
 
         }
     }

@@ -37,22 +37,8 @@ builder.Services.AddScoped<BaseRepository<Schedule>, ScheduleRepository>();
 builder.Services.AddScoped<BaseRepository<DayTime>, DayTimeRepository>();
 builder.Services.AddScoped<BaseRepository<LessonForm>, LessonFormRepository>();
 
-// свагер
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
-});
 
 var app = builder.Build();
-
-
-
-// Используйте Swagger UI и Swagger JSON в режиме дебага
-if (builder.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API V1"));
-}
 
 app.UseAuthorization();
 
