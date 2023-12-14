@@ -31,9 +31,12 @@ namespace BsuApi.Migrations
                     b.Property<string>("Group")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Speciality")
+                        .HasColumnType("longtext");
+
                     b.HasKey("Id");
 
-                    b.ToTable("CourseGroup");
+                    b.ToTable("CourseGroups");
                 });
 
             modelBuilder.Entity("Model.DayTime", b =>
@@ -47,7 +50,7 @@ namespace BsuApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DayTime");
+                    b.ToTable("DayTimes");
                 });
 
             modelBuilder.Entity("Model.LessonForm", b =>
@@ -61,7 +64,29 @@ namespace BsuApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LessonForm");
+                    b.ToTable("lessonForms");
+                });
+
+            modelBuilder.Entity("Model.News", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("CourseGroupId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("longblob");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseGroupId");
+
+                    b.ToTable("News");
                 });
 
             modelBuilder.Entity("Model.Role", b =>
@@ -75,7 +100,7 @@ namespace BsuApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Model.Schedule", b =>
@@ -113,7 +138,7 @@ namespace BsuApi.Migrations
 
                     b.HasIndex("IdForm");
 
-                    b.ToTable("Schedule");
+                    b.ToTable("Schedules");
                 });
 
             modelBuilder.Entity("Model.UID", b =>
@@ -132,7 +157,7 @@ namespace BsuApi.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Uid");
+                    b.ToTable("Uids");
                 });
 
             modelBuilder.Entity("Model.User", b =>
@@ -165,59 +190,70 @@ namespace BsuApi.Migrations
 
                     b.HasIndex("IdRole");
 
-                    b.ToTable("users");
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Model.News", b =>
+                {
+                    b.HasOne("Model.CourseGroup", "CourseGroup")
+                        .WithMany("News")
+                        .HasForeignKey("CourseGroupId");
+
+                    b.Navigation("CourseGroup");
                 });
 
             modelBuilder.Entity("Model.Schedule", b =>
                 {
-                    b.HasOne("Model.CourseGroup", "CorseGroup")
-                        .WithMany("schedules")
+                    b.HasOne("Model.CourseGroup", "CorseGroups")
+                        .WithMany("Schedules")
                         .HasForeignKey("CGId");
 
-                    b.HasOne("Model.DayTime", "DayTime")
+                    b.HasOne("Model.DayTime", "DayTimes")
                         .WithMany("Schedules")
                         .HasForeignKey("DayId");
 
-                    b.HasOne("Model.LessonForm", "LessonForm")
+                    b.HasOne("Model.LessonForm", "LessonForms")
                         .WithMany("Schedules")
                         .HasForeignKey("IdForm");
 
-                    b.Navigation("CorseGroup");
+                    b.Navigation("CorseGroups");
 
-                    b.Navigation("DayTime");
+                    b.Navigation("DayTimes");
 
-                    b.Navigation("LessonForm");
+                    b.Navigation("LessonForms");
                 });
 
             modelBuilder.Entity("Model.UID", b =>
                 {
-                    b.HasOne("Model.User", "User")
-                        .WithMany("uIDs")
+                    b.HasOne("Model.User", "Users")
+                        .WithMany("UIDs")
                         .HasForeignKey("UserId");
 
-                    b.Navigation("User");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Model.User", b =>
                 {
                     b.HasOne("Model.CourseGroup", "CorseGroup")
-                        .WithMany("users")
+                        .WithMany("Users")
                         .HasForeignKey("IdCourseGroup");
 
-                    b.HasOne("Model.Role", "userRole")
-                        .WithMany("users")
+                    b.HasOne("Model.Role", "Roles")
+                        .WithMany("Users")
                         .HasForeignKey("IdRole");
 
                     b.Navigation("CorseGroup");
 
-                    b.Navigation("userRole");
+                    b.Navigation("Roles");
                 });
 
             modelBuilder.Entity("Model.CourseGroup", b =>
                 {
-                    b.Navigation("schedules");
+                    b.Navigation("News");
 
-                    b.Navigation("users");
+                    b.Navigation("Schedules");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Model.DayTime", b =>
@@ -232,12 +268,12 @@ namespace BsuApi.Migrations
 
             modelBuilder.Entity("Model.Role", b =>
                 {
-                    b.Navigation("users");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Model.User", b =>
                 {
-                    b.Navigation("uIDs");
+                    b.Navigation("UIDs");
                 });
 #pragma warning restore 612, 618
         }
