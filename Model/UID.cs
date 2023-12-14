@@ -10,6 +10,6 @@ namespace Model
 
         public string? Uid { get; set; }
         public Guid? UserId { get; set; }   
-        public User? User { get; set; }
+        public virtual User? Users { get; set; }
     }
 }

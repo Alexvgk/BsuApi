@@ -8,6 +8,6 @@ namespace Model
     public class LessonForm : BaseModel
     { 
         public string? Form { get; set; }
-        public List<Schedule> Schedules { get; set;}
+        public virtual List<Schedule>? Schedules { get; set;}
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Model
 {
@@ -9,7 +10,9 @@ namespace Model
     {
         public string? Course { get; set;}
         public string? Group { get; set;}
-        public List<Schedule>? schedules { get; set;}
-        public List<User>? users { get; set; }
+        public string? Speciality { get; set; }
+        public virtual List<Schedule>? Schedules { get; set;}
+        public virtual List<User>? Users { get; set; }
+        public virtual List<News>? News { get; set; }
     }
 }

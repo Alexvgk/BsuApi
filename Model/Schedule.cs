@@ -14,8 +14,8 @@ namespace Model
         public Guid? IdForm { get; set;}
         public Guid? CGId { get; set;}
         public Guid? DayId { get;set;}
-        public CourseGroup? CorseGroup { get; set;}
-        public LessonForm? LessonForm { get; set;}  
-        public DayTime? DayTime { get; set;}    
+        public virtual CourseGroup? CorseGroups { get; set;}
+        public virtual LessonForm? LessonForms { get; set;}  
+        public virtual DayTime? DayTimes { get; set;}    
     }
 }

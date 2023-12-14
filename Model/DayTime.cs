@@ -9,7 +9,7 @@ namespace Model
     public class DayTime : BaseModel
     {
         public string? Day { get; set; }
-        public List<Schedule>? Schedules { get; set;}
+        public virtual List<Schedule>? Schedules { get; set;}
 
     }
 }

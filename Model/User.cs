@@ -15,8 +15,8 @@ namespace Model
         public Guid? IdCourseGroup { get; set;}
         public Guid? IdRole { get; set; }
         public virtual CourseGroup? CorseGroup { get; set; }
-        public virtual Role? userRole { get; set; }
-        public virtual List<UID>? uIDs { get; set; }
+        public virtual Role? Roles { get; set; }
+        public virtual List<UID>? UIDs { get; set; }
 
         public override bool Equals(object obj)
         {
