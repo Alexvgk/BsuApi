@@ -8,8 +8,8 @@ namespace DbApi.DbConect
     {
         public void Configure(EntityTypeBuilder<UID> builder)
         {
-            builder.HasOne(u => u.User)
-                .WithMany(r => r.uIDs)
+            builder.HasOne(u => u.Users)
+                .WithMany(r => r.UIDs)
                 .HasForeignKey(u => u.UserId);
         }
     }

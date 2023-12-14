@@ -8,11 +8,11 @@ namespace DbConect
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasOne(u => u.userRole)
-                .WithMany(r => r.users)
+            builder.HasOne(u => u.Roles)
+                .WithMany(r => r.Users)
                 .HasForeignKey(u => u.IdRole);
             builder.HasOne(u => u.CorseGroup)
-                .WithMany(r => r.users)
+                .WithMany(r => r.Users)
                 .HasForeignKey(u => u.IdCourseGroup);
         }
     }

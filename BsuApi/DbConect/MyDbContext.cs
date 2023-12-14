@@ -13,14 +13,20 @@ namespace DbConect
 {
     public class MyDbContext : DbContext
     {
-        public DbSet<User> users { get; set;} = null!;
-        public DbSet<UID> Uid { get; set; } = null!;
-        public DbSet<CourseGroup> CourseGroup { get; set; } = null!;
+        public DbSet<User> Users { get; set;} = null!;
+        public DbSet<UID> Uids { get; set; } = null!;
+        public DbSet<CourseGroup> CourseGroups { get; set; } = null!;
+        public DbSet<DayTime> DayTimes { get; set; } = null!;
+        public DbSet<LessonForm> lessonForms { get; set; } = null!;
+        public DbSet<News> News { get; set; } = null!;
+        public DbSet<Role> Roles { get; set; } = null!;
+        public DbSet<Schedule> Schedules { get; set; } = null!;
+
 
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
+            //Database.EnsureDeleted();
+           // Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -45,8 +51,11 @@ namespace DbConect
             modelBuilder.Entity<Role>()
                 .Property(x => x.Id)
                 .HasColumnType("char(36)");
+            modelBuilder.Entity<News>()
+               .Property(x => x.Id)
+               .HasColumnType("char(36)");
             modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
+            modelBuilder.ApplyConfiguration(new SchedulesConfiguration());
             modelBuilder.ApplyConfiguration(new UIDConfiguration());
 
         }
